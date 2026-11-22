@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sky Translate</title>
+<meta name="description" content="Sky Translate: translate text, speech, handwriting and camera photos in 240+ languages, with optional AI translation.">
+<meta name="theme-color" content="#EFF2F8">
+<meta name="application-name" content="Sky Translate">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://gen.pollinations.ai" crossorigin>
+<link rel="preconnect" href="https://api.tavily.com" crossorigin>
+<link rel="dns-prefetch" href="https://api.mymemory.translated.net">
+<script>try{var t=localStorage.getItem("tr_theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script>(function(){var d={"groq": ["OVpLT1Jra1NEcDJodHJsQzYwcTR4NmhqWUYzYnlkR1dsZkZJMVlzcnBvTDJIYWs3aHRsSV9rc2c=", "aWd4NjR4NWNieEhGRmVUMWhyeUVHZDlFWUYzYnlkR1dpcEd3ZHRNYTZYWW5WVzZoV29KQl9rc2c=", "SjRlMUxSUGpnaVFxYkJBMGI3dzdjQXN2WUYzYnlkR1dvaHFPYkZqRnpQdXNIR0pveHFXcl9rc2c=", "SDVFOVpsMHZRWHZiZlNUWnlMVTg0TGZDWUYzYnlkR1c3dFN5R0w1YkxIa3FLY3NDbWZaVV9rc2c="], "gemini": ["UUFqcmFoMHlUb21DX0pxYWREZm85RG1IU3BERVE5ejIyQmZsU2xDZWtpTEw2TlI4YkEuUUE=", "QXBYZVQ0SEhTd2pWY0h2THZ4RzdRaWRrVFZXeUVXTFg2T2Y5QjEtdXZWM0o2TlI4YkEuUUE="], "openrouter": ["ZmZjYzg2YzNlZGUyN2ZlM2M2N2ZmYzJlZjBjY2FiMmQ0YmNlMzg0MjFmZThmYWY0ZDdhM2U5MGE2MjIzZmM1My0xdi1yby1rcw==", "YzUwZTM5MGI0ZTI1NThlMjA5NzRiNjNiMzAyOGRhYzU2YWVhNzFhZWNiZGEyMDcwZjJkZjUzY2FhNWYyNGM1MC0xdi1yby1rcw==", "MjdlZDdiOTQ2ZTc5MGE1ODgxMTM0ZGFkMTZkZTc5OGRjNzc1NzAyNjM2ZjE3ZTE4N2NlMDNkYjY3ZjJmMmVkMC0xdi1yby1rcw=="], "pollinations": ["Q0hZMDJwcEtKRWtmY2dDa042T3N0OE1mQzY4SE0wUE5fa3M="], "tavily": ["NnZOamNZdXFCd3Mwd3BNRHhtVExHOGUwbGJ6U0l1ckN6aHVMNzZneHFnLXZ2Y3ZDMi15bHZ0"]};function x(s){return atob(s).split("").reverse().join("")}var o={list:[],timeoutMs:15000},n;for(n in d){o[n]=d[n].map(x);if(n!=="tavily")o[n].forEach(function(k){o.list.push([n,k])})}window.__AI_KEYS=o})();</script>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="app">
+
+<div id="home">
+  <div class="top">
+    <div class="hd"><button class="ib" id="starB"></button><h1>Sky Translate</h1><button class="ib" id="avB" style="justify-self:end"></button></div>
+    <button class="adv" id="advB">Advanced</button>
+    <div id="hintT">Swipe down to show history</div>
+    <div class="inw"><textarea id="src" placeholder="Translate text" rows="1"></textarea><button class="ib pen" id="penB"></button></div>
+    <button class="paste" id="pasteB"></button>
+    <div class="res" id="res"><p id="out"></p><div class="ra"><button class="ib" id="spk"></button><button class="ib" id="cp"></button><button class="ib" id="sv"></button></div></div>
+    <div class="hdl"></div>
+  </div>
+  <div class="bot">
+    <div class="lg"><button class="lb" id="fromB"></button><button class="ib sw" id="swap"></button><button class="lb" id="toB"></button></div>
+    <div class="ac">
+      <button class="sm" id="liveB"><i id="liveI"></i>Live translate</button>
+      <button class="mic" id="micH"></button>
+      <button class="sm" id="camB"><i id="camI"></i>Camera</button>
+    </div>
+  </div>
+</div>
+
+<div id="sub">
+  <div class="sh"><button class="ib" id="back"></button><h2 id="title"></h2><span style="flex:1"></span><button class="ib" id="hMo" style="display:none"></button></div>
+
+  <section class="pg" id="v-settings">
+    <div class="lbl">AI</div>
+    <div class="list"><button class="li" data-go="ai"><span data-i="spark"></span><span class="t">AI Translation Settings<small id="aiSum"></small></span><span data-i="chev"></span></button></div>
+    <div class="lbl">Tools</div>
+    <div class="list"><button class="li" data-go="history"><span data-i="hist"></span><span class="t">History<small>Recent translations</small></span><span data-i="chev"></span></button><button class="li" data-go="tap"><span data-i="tap"></span><span class="t">Tap to Translate<small id="tapSum">On</small></span><span data-i="chev"></span></button></div>
+    <div class="lbl">Preferences</div>
+    <div class="list">
+      <button class="li" data-go="vp"><span data-i="vol"></span><span class="t">Voice<small id="vpSum">Default</small></span><span data-i="chev"></span></button>
+      <button class="li" id="tgDark"><span class="t">Dark theme</span><span class="tgl"></span></button>
+      <button class="li" id="tgAuto"><span class="t">Auto-detect language<small>Text screen: switches the source language by its script</small></span><span class="tgl on"></span></button>
+      <button class="li" id="tgAloud"><span class="t">Speak translations aloud<small>Text screen: reads each result out loud</small></span><span class="tgl"></span></button>
+      
+      <button class="li" id="clrH"><span class="t" style="color:var(--err)">Clear history</span></button>
+    </div>
+    <div class="empty" style="margin-top:8px">Sky Translate · SkyNex Apps</div>
+  </section>
+
+  <section class="pg" id="v-voice">
+    <button class="big" id="mic"></button>
+    <div class="empty" id="micS" style="margin:0">Tap to speak</div>
+    <div id="chat" style="margin-top:18px"></div>
+  </section>
+
+
+  <section class="pg" id="v-lang"><div class="bt" id="bt"></div><input class="srch" id="srch" placeholder="Search languages" autocomplete="off"><div id="ll"></div></section>
+
+  
+
+  <section class="pg" id="v-ai"><div id="aiBody"></div></section>
+  <section class="pg" id="v-history"><div id="hist"></div></section>
+  <section class="pg" id="v-tap">
+   <div class="tapil" id="tapIl"></div>
+   <p class="tapd">Copy any text, then tap the floating icon to translate it without leaving the page you are on.</p>
+   <div class="list tapl">
+    <button class="li" id="tpOn"><span class="t">Use Tap to Translate<small>Turns the quick-translate button on or off</small></span><span class="tgl on"></span></button>
+    <button class="li" id="tpFl"><span class="t">Show floating icon<small>Floating icon stays on the screen for quick access to Tap to Translate</small></span><span class="tgl"></span></button>
+    <button class="li" id="tpAu"><span class="t">Auto-translate copied text<small>When you tap on the floating icon, the copied text will automatically be translated</small></span><span class="tgl on"></span></button>
+   </div>
+  </section>
+  <section class="pg" id="v-vp"><div id="vpBody"></div></section>
+  <section class="pg" id="v-saved"><div id="fav"></div></section>
+</div>
+
+<div id="lvS"><button class="ib lvx" id="lvX"></button><h2 class="lvh">Live translate</h2>
+ <div class="lvlg"><div><button class="lvb" id="lvF"></button><div class="lvt" id="lvFt"></div></div><button class="ib sw" id="lvSw"></button><div><button class="lvb" id="lvT"></button><div class="lvt" id="lvTt"></div></div></div>
+ <div class="lvil" id="lvIl"></div><div class="lvo" id="lvO"></div><button class="lvgo" id="lvGo"></button></div>
+<div id="lvR"><div class="lvst"><div class="lvtb"><button class="ib" id="lvBk"></button><div class="lvpl"><button id="lvPf"></button><button class="ib" id="lvPs"></button><button id="lvPt"></button></div><button class="ib" id="lvTn"></button></div><div class="lvls" id="lvLs"></div></div>
+ <div class="lvbt"><div class="lvsts" id="lvSt"></div><div class="lvct"><button class="lvmd" id="lvMd"></button><button class="lvpz" id="lvPz"></button></div></div></div>
+<div id="vs">
+ <div class="vtop">
+  <div class="vbar"><button class="ib" id="vBk"></button><span class="sp"></span><button class="ib" id="vHs"></button><button class="ib" id="vSt"></button></div>
+  <div class="vph" id="vPh">Speak now...</div>
+  <button class="vtr" id="vTr"></button>
+  <div class="vrs">
+   <div class="vlb" id="vSl"></div>
+   <div class="vs1" id="vS1"></div>
+   <div class="vact"><button class="ib" id="vSp1"></button><span class="sp"></span><button class="ib" id="vCp1"></button></div>
+   <div class="vline"></div>
+   <div class="vlb b" id="vTl"></div>
+   <div class="vs2" id="vS2"></div>
+   <div class="vact b"><button class="ib" id="vSp2"></button><span class="sp"></span><button class="ib" id="vCp2"></button></div>
+  </div>
+ </div>
+ <div class="vbot">
+  <div class="vlg"><div class="lb" id="vF" style="display:grid;place-items:center"></div><div class="ar" id="vAr"></div><div class="lb" id="vT" style="display:grid;place-items:center"></div></div>
+  <button class="vbig rec" id="vBig"></button>
+ </div>
+</div>
+<div id="ts">
+ <div class="ttop">
+  <div class="vbar"><button class="ib" id="tBk"></button><span class="sp"></span><button class="ib" id="tCl"></button><button class="ib" id="tKb"></button><button class="ib" id="tHs"></button><button class="ib" id="tSt"></button></div>
+  <div class="tedit"><textarea id="tIn" placeholder="Translate text" rows="1" enterkeyhint="go" autocomplete="off" spellcheck="false"></textarea><button class="paste" id="tPs"></button></div>
+  <div id="hwL"></div>
+  <div class="tres">
+   <div class="vlb" id="tSl"></div>
+   <div class="vs1" id="tS1"></div>
+   <div class="trm" id="tSr" style="display:none"></div>
+   <div class="trm fx" id="tFx" style="display:none"></div>
+   <div class="trm fx" id="tWb" style="display:none"></div>
+   <div class="vact"><button class="ib" id="tSp1"></button><span class="sp"></span><button class="ib" id="tCp1"></button></div>
+   <div class="vline"></div>
+   <div class="vlb b" id="tTl"></div>
+   <div class="vs2" id="tS2"></div>
+   <div class="trm b" id="tTr" style="display:none"></div>
+   <div class="vact b"><button class="ib" id="tSp2"></button><span class="sp"></span><button class="ib" id="tCp2"></button></div>
+   <div class="tcard" id="tMore" style="display:none"></div>
+   <div class="tcard" id="tDef" style="display:none"></div>
+   <div class="tcard" id="tEx" style="display:none"></div>
+  </div>
+ </div>
+ <div class="tbot"><div class="lg"><button class="lb" id="tF"></button><button class="ib sw" id="tSw"></button><button class="lb" id="tT"></button></div></div>
+ <div id="hw"><div class="hwc"><div id="hwC"></div></div><canvas id="hwCv"></canvas><div class="hwb"><button id="hwU"></button><button id="hwS"></button><button id="hwB"></button><button class="go" id="hwG"></button></div></div>
+</div>
+<div id="cam">
+ <div id="camV"><video id="camVid" autoplay playsinline muted></video><img id="camImg" alt=""><div id="camO"></div></div>
+ <div class="camtop"><button class="ib" id="camX"></button><h2>Camera</h2><span></span></div>
+ <button id="camP"></button>
+ <div id="camD"><div class="camdl"><button class="lb" id="camF"></button><button class="ib" id="camSw"></button><button class="lb" id="camT"></button></div><button class="li" id="camTg"><span class="t">Show original text</span><span class="tgl"></span></button></div>
+ <div class="cambot"><div class="camh" id="camH"></div><div class="camrow"><button class="camg" id="camG" aria-label="Choose from gallery"></button><button class="camsh" id="camSh" aria-label="Take photo"></button><span></span></div></div>
+ <div id="camS"></div>
+ <input type="file" id="camFile" accept="image/*" hidden>
+</div>
+<div id="snk"></div><button id="fab" aria-label="Tap to Translate"></button><div id="fabX"></div>
+<div id="cmo"><div id="cm"></div></div>
+<div id="dg"><div class="dgb"><h4 id="dgt"></h4><div class="dga"><button id="dgn">No</button><button id="dgy">Yes</button></div></div></div>
+<div id="sheet"><div class="box" id="box"></div></div>
+</div>
+<noscript><p style="padding:24px;font:16px sans-serif">Sky Translate needs JavaScript. Please turn it on and reload.</p></noscript>
+<script src="app.js"></script>
+</body>
+</html>
